@@ -1,29 +1,25 @@
-import os
 import re
 import string
 from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize
 
-def tokenization(text):
-    # convert all letters to lowercase
+def tokenize(text):
+    # Convert all letters to lowercase
     text = text.lower()
 
-    # convert punctuations to whitespace
+    # Replace punctuations with whitespace
     text = re.sub(f'[{re.escape(string.punctuation)}]', ' ', text)
 
-    # split text into tokens on whitespaces
-    tokens = text.split() # default is to split on whitespace
+    # Split text into tokens on whitespaces
+    tokens = text.split()
     return tokens
 
-def normalization(tokens):
+def normalize(tokens):
     p_stem = PorterStemmer()
-    tokens_normalized = []
-    for token in tokens:
-        tokens_normalized.append(p_stem.stem(token))
+    tokens_normalized = [p_stem.stem(token) for token in tokens]
     return tokens_normalized
 
-test = "I never lived, I never programmed! I didn't want for you to forgive me."
+test = "My code is programmed to search words."
 
-tokens = tokenization(test)
+tokens = tokenize(test)
 print(tokens)
-print(normalization(tokens))
+print(normalize(tokens))

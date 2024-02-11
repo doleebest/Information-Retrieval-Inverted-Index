@@ -26,7 +26,7 @@ class InvertedIndex:
     def build_index(self, folder_path):
         for filename in os.listdir(folder_path):
             if filename.endswith(".txt"):
-                with open(os.path.join(folder_path, filename), 'r') as file:
+                with open(os.path.join(folder_path, filename), 'r', encoding="utf-8") as file:
                     doc_id = int(os.path.splitext(filename)[0])
                     text = file.read()
                     tokens = self.tokenize(text)

@@ -50,7 +50,11 @@ class InvertedIndex:
         return set(range(1, num_docs + 1)) - self.single_term_search(terms[1])
 
     def single_term_search(self, term):
-        return self.index.get(term, set())
+        matching_docs = set()
+        for indexed_term in self.index:
+            if term in indexed_term:
+                matching_docs |= self.index[indexed_term]
+        return matching_docs
 
     def search(self, query):
         normalized_query = self.normalize(self.tokenize(query))
@@ -70,7 +74,7 @@ class InvertedIndex:
 
 def user_interface(index):
     while True:
-        query = input("Enter your query (or 'exit' to quit): ")
+        query = input("Enter your query (or type 'exit' to quit): ")
         if query.lower() == 'exit':
             break
         results = index.search(query)
@@ -83,7 +87,7 @@ def user_interface(index):
 
 if __name__ == "__main__":
     index = InvertedIndex()
-    folder_path = "./corpus1"  # Replace with the actual folder path
+    folder_path = "./corpus1"  # REPLACE with your folder path here
     num_docs = len([name for name in os.listdir(folder_path) if name.endswith(".txt")])
     index.build_index(folder_path)
     user_interface(index)

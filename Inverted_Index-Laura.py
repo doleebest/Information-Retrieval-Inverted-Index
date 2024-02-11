@@ -1,5 +1,6 @@
 import os
 import re
+import string
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 
@@ -8,8 +9,7 @@ def tokenization(text):
     text = text.lower()
 
     # convert punctuations to whitespace
-    # \p{P} matches any punctuation character like colon, semicolon, period, etc.
-    text = re.sub(r'\p{P}', ' ', text)
+    text = re.sub(f'[{re.escape(string.punctuation)}]', ' ', text)
 
     # split text into tokens on whitespaces
     tokens = text.split() # default is to split on whitespace
@@ -22,4 +22,8 @@ def normalization(tokens):
         tokens_normalized.append(p_stem.stem(token))
     return tokens_normalized
 
-files_path = "C:\Users\laura\OneDrive\Dokumente\ECU\Information retrieval\Project1\Information-Retrieval-Inverted-Index\corpus1"
+test = "I never lived, I never programmed! I didn't want for you to forgive me."
+
+tokens = tokenization(test)
+print(tokens)
+print(normalization(tokens))
